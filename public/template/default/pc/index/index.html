@@ -1,0 +1,293 @@
+{extend name="./template/default/pc/pub/base.html" /}
+{block name="seo"}
+<title>{$site_name}-免费的无弹窗小说阅读网</title>
+<meta name="description"
+      content="{$site_name}是广大书友最值得收藏的网络小说阅读网，{$site_name}收录了当前最火热的网络小说，{$site_name}免费提供高质量的小说最新章节，{$site_name}是广大网络小说爱好者必备的小说阅读网。">
+{/block}
+{block name="main"}
+<div class="body-bg">
+    <div class="wrap">
+        <!-- start main -->
+        <div class="containerbox">
+            <div class="block10"></div>
+            <div class="wrap1200">
+                <div class="boxcont fl">
+                    <ul class="boxlist">
+                        <li>
+                            <a class="title" href="" target="_blank"><em>题材</em></a>
+                            <p class="clearfixer">
+                                {raccoon:cates name="cates" order="sortid desc"}
+                                <a class="gray" href="/{$booklist_act}?type={$vo.sortid}"
+                                   target="_blank">{$vo.cate_name}</a>
+                                {/raccoon:cates}
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="w950 fr">
+                    <div class="mod-banner">
+                        <div class="banner-slide">
+                            <div class="slideBox">
+                                {raccoon:banners name="banners" order="banner_order desc"}
+                                <a href="{if $end_point == 'id'}
+                                      /{$book_ctrl}/{$vo.articleid}
+                                      {else /}
+                                      /{$book_ctrl}/{$vo.book.backupname}
+                                      {/if}"
+                                   data-shutter-title="{$vo.title}">
+                                    <img width="950px" height="360px" src="{$vo.pic}" alt="{$vo.title}">
+                                </a>
+                                {/raccoon:banners}
+                            </div>
+                            <div class="slide-point">
+                                {for start="1" end="5"}
+                                <li class="slide-point-Focus"></li>
+                                {/for}
+                            </div>
+                            <button class="prev" style="opacity: 0.5239; display: block;"></button>
+                            <button class="next" style="opacity: 0.5239; display: block;"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block10"></div>
+            <div class="wrap1200">
+                <div class="goodbookbox">
+                    <span class="titmenu">万众追更</span>
+                    <div class="goodbook-tabcont">
+                        <div>
+                            <ul class="goodbook-b">
+                                {raccoon:books name="books" order="lastupdate desc" limit="1,4"}
+                                <dl class="book-block">
+                                    <dt>
+                                        <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                            <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                                 src=""
+                                                 style="display: block;">
+                                        </a>
+                                    </dt>
+                                    <dd>
+                                        <a href="/{$book_ctrl}/{$vo.param}" class="book-name" target="_blank">{$vo.articlename}</a>
+                                        <span class="book-info">
+		            						{$vo.intro}
+		            					</span>
+                                        <span class="book-author">
+		            								作者：
+		            								<a target="_blank">{$vo.author}</a>
+		            							</span>
+                                    </dd>
+                                </dl>
+                                {/raccoon:books}
+                            </ul>
+                            <ul class="goodbook-b">
+                                {raccoon:books name="books" order="lastupdate desc" limit="5,4"}
+                                <dl class="book-block">
+                                    <dt>
+                                        <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                            <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                                 src=""
+                                                 style="display: block;">
+                                        </a>
+                                    </dt>
+                                    <dd>
+                                        <a href="/{$book_ctrl}/{$vo.param}" class="book-name" target="_blank">{$vo.articlename}</a>
+                                        <span class="book-info">
+		            						{$vo.intro}
+		            					</span>
+                                        <span class="book-author">
+		            								作者：
+		            								<a target="_blank">{$vo.author}</a>
+		            							</span>
+                                    </dd>
+                                </dl>
+                                {/raccoon:books}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block10"></div>
+            {raccoon:cates name="cates" id="cate" where="sortid in (1,2,3)" key="k"}
+            <div class="wrap1200">
+                <div class="goodbookbox">
+                    <span class="titmenu">{$cate.cate_name}</span>
+                    <div class="goodbook-tabcont">
+                        <div>
+                            <ul class="goodbook-b">
+                                {raccoon:books name="books" where="sortid = '$cate->sortid'" order="lastupdate desc" limit="1,4"}
+                                <dl class="book-block">
+                                    <dt>
+                                        <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                            <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                                 src=""
+                                                 style="display: block;">
+                                        </a>
+                                    </dt>
+                                    <dd>
+                                        <a href="/{$book_ctrl}/{$vo.param}" class="book-name" target="_blank">{$vo.articlename}</a>
+                                        <span class="book-info">
+		            						{$vo.intro}
+		            					</span>
+                                        <span class="book-author">
+		            								作者：
+		            								<a target="_blank">{$vo.author}</a>
+		            							</span>
+                                    </dd>
+                                </dl>
+                                {/raccoon:books}
+                            </ul>
+                            <ul class="goodbook-b">
+                                {raccoon:books name="books" where="sortid = '$cate->sortid'" order="lastupdate desc" limit="5,4"}
+                                <dl class="book-block">
+                                    <dt>
+                                        <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                            <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                                 src=""
+                                                 style="display: block;">
+                                        </a>
+                                    </dt>
+                                    <dd>
+                                        <a href="/{$book_ctrl}/{$vo.param}" class="book-name" target="_blank">{$vo.articlename}</a>
+                                        <span class="book-info">
+		            						{$vo.intro}
+		            					</span>
+                                        <span class="book-author">
+		            								作者：
+		            								<a target="_blank">{$vo.author}</a>
+		            							</span>
+                                    </dd>
+                                </dl>
+                                {/raccoon:books}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block10"></div>
+            {/raccoon:cates}
+            <div class="rank-box">
+                <div class="rank-list">
+                    <span class="titmenu">更新榜</span>
+                    <ul class="rank-1">
+                        {raccoon:books name="books" order="lastupdate desc" limit="10" key="k"}
+                        {if $k == 1}
+                        <li class="top topred">
+                            <span class="num">{$k}</span>
+                            <dl class="book-block">
+                                <dt>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                        <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                             src="">
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank" class="book-name">{$vo.articlename}</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        {else /}
+                        <li>
+                            <span class="num">{$k}</span>
+                            <a class="book-list-f" href="/{$book_ctrl}/{$vo.param}" target="_blank">{$vo.articlename}</a>
+                        </li>
+                        {/if}
+                        {/raccoon:books}
+                    </ul>
+                    <a href="/{$booklist_act}" target="_blank" class="more">查看更多&gt;&gt;</a>
+                </div>
+                <div class="rank-list">
+                    <span class="titmenu">点击榜</span>
+                    <ul class="rank-1">
+                        {raccoon:books name="books" order="allvisit desc" limit="10" key="k"}
+                        {if $k == 1}
+                        <li class="top topred">
+                            <span class="num">{$k}</span>
+                            <dl class="book-block">
+                                <dt>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                        <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                             src="">
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank" class="book-name">{$vo.articlename}</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        {else /}
+                        <li>
+                            <span class="num">{$k}</span>
+                            <a class="book-list-f" href="/{$book_ctrl}/{$vo.param}" target="_blank">{$vo.articlename}</a>
+                        </li>
+                        {/if}
+                        {/raccoon:books}
+                    </ul>
+                    <a href="/{$booklist_act}" target="_blank" class="more">查看更多&gt;&gt;</a>
+                </div>
+                <div class="rank-list">
+                    <span class="titmenu">完结榜</span>
+                    <ul class="rank-1">
+                        {raccoon:books name="books" order="lastupdate desc" where="fullflag=1" limit="10" key="k"}
+                        {if $k == 1}
+                        <li class="top topred">
+                            <span class="num">{$k}</span>
+                            <dl class="book-block">
+                                <dt>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                        <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                             src="">
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank" class="book-name">{$vo.articlename}</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        {else /}
+                        <li>
+                            <span class="num">{$k}</span>
+                            <a class="book-list-f" href="/{$book_ctrl}/{$vo.param}" target="_blank">{$vo.articlename}</a>
+                        </li>
+                        {/if}
+                        {/raccoon:books}
+                    </ul>
+                    <a href="/{$booklist_act}" target="_blank" class="more">查看更多&gt;&gt;</a>
+                </div>
+                <div class="rank-list">
+                    <span class="titmenu">新书榜</span>
+                    <ul class="rank-1">
+                        {raccoon:books name="books" order="articleid desc" limit="10" key="k"}
+                        {if $k == 1}
+                        <li class="top topred">
+                            <span class="num">{$k}</span>
+                            <dl class="book-block">
+                                <dt>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank">
+                                        <img class="lazyimg" data-original="{$imgServer}{$vo.cover}"
+                                             src="">
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <a href="/{$book_ctrl}/{$vo.param}" target="_blank" class="book-name">{$vo.articlename}</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        {else /}
+                        <li>
+                            <span class="num">{$k}</span>
+                            <a class="book-list-f" href="/{$book_ctrl}/{$vo.param}" target="_blank">{$vo.articlename}</a>
+                        </li>
+                        {/if}
+                        {/raccoon:books}
+                    </ul>
+                    <a href="/{$booklist_act}" target="_blank" class="more">查看更多&gt;&gt;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript" src="/static/js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="/static/js/slide.js"></script>
+{/block}

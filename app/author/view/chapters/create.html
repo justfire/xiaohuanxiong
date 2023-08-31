@@ -1,0 +1,123 @@
+{extend name="pub/base" /}
+{block name="head"}
+<title>章节添加</title>
+<style>
+    #formBasForm {
+        max-width: 700px;
+        margin: 30px auto;
+    }
+
+    #formBasForm .layui-form-item {
+        margin-bottom: 25px;
+    }
+</style>
+{/block}
+{block name="main"}
+<div class="layui-fluid" id="closeTag">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 表单开始 -->
+            <form class="layui-form" id="formBasForm" lay-filter="formBasForm">
+                <input type="hidden" value="{$articleid}" name="articleid">
+                <div class="layui-form-item">
+                    <label class="layui-form-label layui-form-required">章节名称:</label>
+                    <div class="layui-input-block">
+                        <input name="chapter_name" placeholder="章节名称" class="layui-input"
+                               lay-verType="tips" lay-verify="required" required/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label layui-form-required">章节序:</label>
+                    <div class="layui-input-block">
+                        <input name="chapter_order" value="{$order}" class="layui-input"
+                               lay-verType="tips" lay-verify="required" required/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label layui-form-required">章节内容:</label>
+                    <div class="layui-input-block">
+                        <button id="file-btn-upload" class="layui-btn layui-btn-sm layui-btn-normal icon-btn"
+                                type="button">
+                            <i class="layui-icon">&#xe681;</i>上传文件
+                        </button>
+                        <label id="show"></label>
+                        <input type="hidden" name="cover" id="cover" value="">
+                    </div>
+                </div>
+
+                <div class="layui-form-item text-right">
+                    <button class="layui-btn" lay-filter="formBasSubmit" lay-submit="">保存</button>
+                    <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+                </div>
+            </form>
+            <!-- //表单结束 -->
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+    layui.use(['layer', 'form', 'laydate', 'upload'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var upload = layui.upload;
+
+        /* 渲染laydate */
+        laydate.render({
+            elem: '#formBasDateSel',
+            trigger: 'click',
+            range: true
+        });
+
+        // 上传
+        upload.render({
+            elem: '#file-btn-upload',
+            accept: 'file',
+            exts: 'txt',
+            auto: false, //选择文件后不自动上传
+            url: '{:adminurl("upload")}',
+            choose: function (obj) {
+                //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+                obj.preview(function (index, file, result) {
+                    //去掉base64位头部
+                    var txt = result.replace(/^data:text\/\w+;base64,/, "");
+                    var urlStr = window.atob(txt).split("\r");
+                    console.log(file);
+                    if (urlStr !== undefined && urlStr.length > 0) {
+                        var content = ''
+                        for (index in urlStr) {
+                            content += urlStr[index]
+                        }
+                        $('#show').html(file.name)
+                        $('#cover').val(content)
+                    }
+                });
+                return false;
+            }
+        });
+
+        /* 监听表单提交 */
+        form.on('submit(formBasSubmit)', function (data) {
+            $.ajax({
+                url: "{:adminurl('chapters/create')}",
+                type: 'post',
+                data: $('form').serialize(),
+                success(res) {
+                    if (res.err == 0) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                        admin.closeDialog('#closeTag');  // 关闭页面层弹窗
+                    } else {
+                        layer.msg(res.msg, {icon: 2, time: 1000});
+                    }
+                }
+            })
+            return false;
+        });
+
+    });
+</script>
+{/block}
